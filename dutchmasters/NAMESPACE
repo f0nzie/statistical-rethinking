@@ -1,0 +1,5 @@
+exportPattern("^[[:alpha:]]+")
+
+import(ggplot2)
+import(grDevices)
+import(graphics)
