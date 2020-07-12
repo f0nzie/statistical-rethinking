@@ -24,7 +24,6 @@ RUN install2.r --error --repo https://mran.microsoft.com/snapshot/2019-06-12 \
   broom \
   dagitty \
   extrafont \
-  farver \
   gdtools \
   ghibli \
   gridExtra \
@@ -63,6 +62,7 @@ RUN install2.r --error --repo https://mran.microsoft.com/snapshot/2019-06-29 \
 # lifecycle will install after 2019-08-02
 # Error: package ‘lifecycle’ is not available (for R version 3.6.3)
 RUN install2.r --error --repo https://mran.microsoft.com/snapshot/2019-08-02 \
+    farver \
     lifecycle
 
 # COPY hrbrthemes /home/rstudio/pkg/hrbrthemes
