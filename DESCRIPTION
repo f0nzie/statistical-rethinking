@@ -43,4 +43,5 @@ Remotes: rstudio/bookdown,
     EdwinTh/dutchmasters,
     rmcelreath/rethinking,
     r-lib/scales,
-    stan-dev/bayesplot
+    stan-dev/bayesplot,
+    cran/mnormt
