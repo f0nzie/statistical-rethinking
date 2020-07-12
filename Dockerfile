@@ -17,11 +17,6 @@ RUN apt-get -y update \
     libfontconfig1-dev \
     libcairo2-dev
 
-# RUN install2.r --error \
-#     haven \
-#     tibble \
-#     xml2 
-
 # Set date on MRAN
 # Install R packages
 RUN install2.r --error --repo https://mran.microsoft.com/snapshot/2019-06-12 \
@@ -68,19 +63,6 @@ RUN install2.r --error \
 RUN install2.r --error --repo https://mran.microsoft.com/snapshot/2019-06-12 \
   hrbrthemes \
   logging 
-
-# # needed by 
-# RUN install2.r --error \
-#     # Cairo \
-#     systemfonts \
-#     extrafont \
-#     gdtools
-
-# # needed by rethinking
-# RUN install2.r --error \
-#     bookdown \
-#     dagitty \
-#     shape
 
 
 # COPY hrbrthemes /home/rstudio/pkg/hrbrthemes
