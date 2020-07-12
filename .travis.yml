@@ -3,7 +3,7 @@ services:
     - docker
 
 script:
-    - docker build  -f Dockerfile -t f0nzie/kurtz-rethinking
+    - docker build  -f Dockerfile -t f0nzie/kurtz-rethinking .
     # docker run --rm -p 8787:8787 \
     # -v /home/msfz751/docker-share/kurtz:/home/rstudio/share  \
     # -e USERID=$UID -e PASSWORD=kurtz \
