@@ -24,6 +24,7 @@ RUN install2.r --error --repo https://mran.microsoft.com/snapshot/2019-06-12 \
   broom \
   dagitty \
   extrafont \
+  farver \
   gdtools \
   ghibli \
   gridExtra \
@@ -32,7 +33,9 @@ RUN install2.r --error --repo https://mran.microsoft.com/snapshot/2019-06-12 \
   ggthemes \
   ggbeeswarm \
   haven \
+  hrbrthemes \
   igraph \
+  logging \
   loo \
   Matrix \
   MCMCglmm \
@@ -51,13 +54,16 @@ RUN install2.r --error --repo https://mran.microsoft.com/snapshot/2019-06-12 \
   wesanderson \
   xml2
 
-RUN install2.r --error --repo https://mran.microsoft.com/snapshot/2019-06-12 \
-    systemfonts \
-    farver \
-    lifecycle \
-    hrbrthemes \
-    logging 
+# Error: packages ‘systemfonts’, ‘lifecycle’ are not available (for R version 3.6.3)
+# also fails in travis
+# systemfonts will not be available for 3.6.3 until 2019-06-29
+RUN install2.r --error --repo https://mran.microsoft.com/snapshot/2019-06-29 \
+    systemfonts
 
+# lifecycle will install after 2019-08-02
+# Error: package ‘lifecycle’ is not available (for R version 3.6.3)
+RUN install2.r --error --repo https://mran.microsoft.com/snapshot/2019-08-02 \
+    lifecycle
 
 # COPY hrbrthemes /home/rstudio/pkg/hrbrthemes
 COPY fiftystater /home/rstudio/pkg/fiftystater
