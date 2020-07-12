@@ -27,7 +27,7 @@ docker build  -f Dockerfile -t f0nzie/kurtz-rethinking .
 docker run --rm -p 8787:8787 -v /home/msfz751/docker-share/kurtz:/home/rstudio/share  -e USERID=$UID -e PASSWORD=kurtz f0nzie/kurtz-rethinking
 ```
 
-> **Note**. We will replace this a script that also shares the `book` folder.
+> **Note**. We will replace this a script that also shares the `book` folder. See below.
 
 
 ### Build book
@@ -36,138 +36,119 @@ docker run --rm -p 8787:8787 -v /home/msfz751/docker-share/kurtz:/home/rstudio/s
 Rscript -e 'bookdown::render_book(input = "index.Rmd", output_format = "bookdown::gitbook", output_dir = "public", clean_envir = FALSE)'
 ```
 
-> **Note**. We will replace this with a script.
-
-
-
-## Frequent errors
-
-```
- Error in zero_range(range) : x must be length 1 or 2
-```
-
- These errors happen in several chapters. Start at section 3:
- * lines 556, and on. All errors are related to `ggplot2`
-
- 
-
-![image-20200708102415799](assets/README/image-20200708102415799.png)
-
-
-
-![image-20200708102433906](assets/README/image-20200708102433906.png)
-
-
-
-![image-20200708102453036](assets/README/image-20200708102453036.png)
-
-
-
-![image-20200708102507246](assets/README/image-20200708102507246.png)
-
-![image-20200708102522424](assets/README/image-20200708102522424.png)
-
-
-
-![image-20200708102535405](assets/README/image-20200708102535405.png)
-
-
+> **Note**. We will replace this with a script. See below.
 
 
 
 ## Scripts
 
-### Dockerfile
+### `run_docker.sh`
+
+We want to share the `book` folder with the container and the host so any changes made from the container are reflected on the original book.
+
+*   `BOOK_DIR=${PWD}/original_book`: folder where the book is located
+*   `-v $BOOK_DIR:/home/rstudio/book `: the volume to share will be found under `book` in the `rstudio` folder
 
 ```
-FROM rocker/rstudio:3.6.3
+#!/bin/bash
 
+BOOK_DIR=${PWD}/original_book
 
-RUN apt-get -y update \
- && apt-get -y install  \
-    libxml2-dev \
-    libz-dev
-
-# needed by V8, shape
-RUN apt-get -y update \
- && apt-get -y install  \
-    libv8-dev 
-
-RUN apt-get -y update \
- && apt-get -y install  \
-    libfontconfig1-dev \
-    libcairo2-dev
-
-RUN install2.r --error \
-    haven \
-    tibble \
-    xml2 
-
-# Install R packages
-RUN install2.r --error \
-  bayesplot \
-  brms \
-  BH \
-  broom \
-  ghibli \
-  gridExtra \
-  ggrepel \
-  GGally \
-#  grid \
-  ggthemes \
-  ggbeeswarm \
-  igraph \
-  loo \
-  Matrix \
-  MCMCglmm \
-  mapproj \
-  pacman \
-  psych \
-#  rethinking \
-  rstan \
-  rcartocolor \
-  shinystan \
-  threejs \
-  tidybayes \
-  tidyverse \
-#  parallel \
-  viridis \
-  wesanderson
-
-# needed by 
-RUN install2.r --error \
-    # Cairo \
-    systemfonts \
-    extrafont \
-    gdtools
-
-# needed by rethinking
-RUN install2.r --error \
-    bookdown \
-    dagitty \
-    shape
-
-
-COPY hrbrthemes /home/rstudio/pkg/hrbrthemes
-COPY fiftystater /home/rstudio/pkg/fiftystater
-COPY dutchmasters /home/rstudio/pkg/dutchmasters
-COPY rethinking /home/rstudio/pkg/rethinking
-COPY scales /home/rstudio/pkg/scales
-
-RUN Rscript -e "install.packages('/home/rstudio/pkg/hrbrthemes', repos = NULL, type='source')"
-RUN Rscript -e "install.packages('/home/rstudio/pkg/fiftystater', repos = NULL, type='source')"
-RUN Rscript -e "install.packages('/home/rstudio/pkg/dutchmasters', repos = NULL, type='source')"
-RUN Rscript -e "install.packages('/home/rstudio/pkg/rethinking', repos = NULL, type='source')"
-RUN Rscript -e "install.packages('/home/rstudio/pkg/scales', repos = NULL, type='source')"
-
-
-COPY book /home/rstudio/book
-RUN chmod a+rwx -R /home/rstudio/book
+docker run --rm -p 8787:8787 \
+    -v /home/msfz751/docker-share/kurtz:/home/rstudio/share  \
+    -e USERID=$UID -e PASSWORD=kurtz \
+     -v $BOOK_DIR:/home/rstudio/book \
+    f0nzie/kurtz-rethinking
 ```
+
+
+
+### `build_book.sh`
+
+This script is located under the `book` folder. It will delete the temporary folder `_bookdown_files/` and the `public` folder before starting a new compilation.
+
+```
+#!/bin/sh
+# we assume we are sharing the book folder between host and container
+# remove output folder
+rm -rf _bookdown_files/
+rm -rf public/
+
+# build boon on public folder
+Rscript -e 'bookdown::render_book(input = "index.Rmd", output_format = "bookdown::gitbook", output_dir = "public", config_file = "_bookdown.yml", clean_envir = FALSE)'
+```
+
+
 
 
 ## Dependencies
 
+
+
+### Not in CRAN or MRAN
+
+Install these packages with:
+
 ```
-ERROR: dependencies ‘farver’, ‘lifecycle’ are not available for package ‘scales’
+COPY pkg1 /home/rstudio/pkg/pkg1
+RUN Rscript -e "install.packages('/home/rstudio/pkg/pkg1', repos = NULL, type='source')"
 ```
+
+*   fiftystater
+
+*   dutchmasters
+
+*   rethinking
+
+*   scales
+
+### Packages in CRAN and MRAN
+
+Install all these package swith:
+
+```
+RUN install2.r --error --repo https://mran.microsoft.com/snapshot/2019-06-12 \
+	pkg1 pkg2 ... pkgn
+```
+
+
+
+*   bayesplot 
+*   bookdown 
+
+-     brms 
+-     BH 
+-     broom 
+-     dagitty 
+-     extrafont 
+-     gdtools 
+-     ghibli 
+-     gridExtra 
+-     ggrepel 
+-     GGally 
+-     ggthemes 
+-     ggbeeswarm 
+-     haven 
+-     igraph 
+-     loo 
+-     Matrix 
+-     MCMCglmm 
+-     mapproj 
+-     pacman 
+-     psych 
+-     rstan 
+-     rcartocolor 
+-     shape 
+-     shinystan 
+-     tibble 
+-     threejs 
+-     tidybayes 
+-     tidyverse 
+-     viridis 
+-     wesanderson 
+-     xml2
+-   systemfonts 
+-   farver 
+-   lifecycle
+-   hrbrthemes
+-   logging 
