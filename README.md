@@ -1,7 +1,10 @@
 # kurtz-rethinking bookdown
 
+This book was written by Solomon Kurtz which code lives [here](https://github.com/ASKurz/Statistical_Rethinking_with_brms_ggplot2_and_the_tidyverse). It is a beautiful book on Bayesian regression in R using the [brms](https://statmodeling.stat.columbia.edu/2017/01/10/r-packages-interfacing-stan-brms/) package. Based on the book *"Statistical Rethinking"* by Richard McElreath, a Bayesian Course with examples in R and Stan. 
+
 
 ## Bookdown details
+* Book version `1.0.1`. See `index.Rmd`.
 * R-3.6.3
 * RStudio 1.2.5042
 * Most packages MRAN dated on `2019-06-12`. Other packages dated at later dates for smnoother book building.
