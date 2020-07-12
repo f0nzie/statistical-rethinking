@@ -24,8 +24,10 @@ docker build  -f Dockerfile -t f0nzie/kurtz-rethinking .
 ### Run container
 
 ```
-docker run --rm -p 8787:8787 -v /home/msfz751/docker-share/kurtz:/home/rstudio/share  -e USERID=$UID -e PASSWORD=kurtz f0nzie/kurtz-rethinking
+docker run --rm -p 28787:8787 -v /home/msfz751/docker-share/kurtz:/home/rstudio/share  -e USERID=$UID -e PASSWORD=kurtz f0nzie/kurtz-rethinking
 ```
+
+Then open RStudio in your browser with 127.0.0.1:28787, with `rstudio` and `kurtz` user id and password.
 
 > **Note**. We will replace this a script that also shares the `book` folder. See below.
 
