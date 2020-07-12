@@ -3,8 +3,7 @@ Type: Book
 Title: Does not matter.
 Version: 0.0.1
 Depends: R (>= 3.6.3)
-Imports: bookdown, ggplot2
-  bayesplot,
+Imports: 
   bookdown,
   brms,
   BH,
@@ -43,4 +42,5 @@ Remotes: rstudio/bookdown,
     wmurphyrd/fiftystater,
     EdwinTh/dutchmasters,
     rmcelreath/rethinking,
-    r-lib/scales
+    r-lib/scales,
+    stan-dev/bayesplot
