@@ -41,6 +41,16 @@ Rscript -e 'bookdown::render_book(input = "index.Rmd", output_format = "bookdown
 > **Note**. We will replace this with a script. See below.
 
 
+## Publish book in GitHub `gh-pages`
+Send the `public` folder under the book as a subtree branch named `gh-pages`.
+
+
+```
+git subtree push --prefix original_book/public origin gh-pages
+```
+
+Then enable, `gh-pages` branch in the repo GitHub/Settings.
+
 
 ## Scripts
 
