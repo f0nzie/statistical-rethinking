@@ -1,12 +1,10 @@
 # kurtz-rethinking bookdown
 
-[toc]
 
 ## Bookdown details
 * R-3.6.3
 * RStudio 1.2.5042
-* MRAN dated on `2019-06-12`
-
+* Most packages MRAN dated on `2019-06-12`. Other packages dated at later dates for smnoother book building.
 
 
 ## Build and run
@@ -18,7 +16,6 @@ Build with:
 ```
 docker build  -f Dockerfile -t f0nzie/kurtz-rethinking .
 ```
-
 
 
 ### Run container
@@ -152,3 +149,10 @@ RUN install2.r --error --repo https://mran.microsoft.com/snapshot/2019-06-12 \
 -   lifecycle
 -   hrbrthemes
 -   logging 
+
+## Build book from Travis
+
+[6.4 Travis + GitHub Pages](https://musing-aryabhata-b16338.netlify.app/travis-ghpages.html) from book "bookdown: Authoring Books and Technical Documents with R Markdown" by Yihui Xie
+
+> *"Since this Travis service is primarily for checking R packages, you will need a (fake) DESCRIPTION file as if the book repository were an R package. You may use the command line to enter touch DESCRIPTION (or in R: file.create('DESCRIPTION')). The only thing in this file that really matters for a bookdown project is the specification of dependencies. Here a dependency corresponds to a package that you plan to use in your book. If a dependency is on CRAN or BioConductor, you first list it in the Imports field of the DESCRIPTION file; this is equivalent to Travis running library(<PACKAGE>) before building your book. If it is a package on GitHub, you will need to include the USER/REPO in the Remotes field (equivalent to devtools::install_github(<"PACKAGE">)), and add the package name to the Imports field as well (so GitHub packages will be listed in two places in this file)."*
+
