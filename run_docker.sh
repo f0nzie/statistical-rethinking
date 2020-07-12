@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 BOOK_DIR=${PWD}/original_book
 
 docker run --rm -p 8787:8787 \
