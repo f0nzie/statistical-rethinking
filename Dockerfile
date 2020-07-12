@@ -7,13 +7,10 @@ RUN apt-get -y update \
     libz-dev
 
 # needed by V8, shape
-RUN apt-get -y update \
- && apt-get -y install  \
-    libv8-dev 
-
 # needed by extrafont, systemfonts
 RUN apt-get -y update \
  && apt-get -y install  \
+    libv8-dev \
     libfontconfig1-dev \
     libcairo2-dev
 
@@ -46,7 +43,6 @@ RUN install2.r --error --repo https://mran.microsoft.com/snapshot/2019-06-12 \
   rcartocolor \
   shape \
   shinystan \
-#  systemfonts \
   tibble \
   threejs \
   tidybayes \
@@ -55,14 +51,12 @@ RUN install2.r --error --repo https://mran.microsoft.com/snapshot/2019-06-12 \
   wesanderson \
   xml2
 
-RUN install2.r --error \
+RUN install2.r --error --repo https://mran.microsoft.com/snapshot/2019-06-12 \
     systemfonts \
     farver \
-    lifecycle
-
-RUN install2.r --error --repo https://mran.microsoft.com/snapshot/2019-06-12 \
-  hrbrthemes \
-  logging 
+    lifecycle \
+    hrbrthemes \
+    logging 
 
 
 # COPY hrbrthemes /home/rstudio/pkg/hrbrthemes
@@ -77,6 +71,3 @@ RUN Rscript -e "install.packages('/home/rstudio/pkg/dutchmasters', repos = NULL,
 RUN Rscript -e "install.packages('/home/rstudio/pkg/rethinking', repos = NULL, type='source')"
 RUN Rscript -e "install.packages('/home/rstudio/pkg/scales', repos = NULL, type='source')"
 
-
-# COPY original_book /home/rstudio/original_book
-# RUN chmod a+rwx -R /home/rstudio/original_book
